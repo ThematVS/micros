@@ -2,6 +2,7 @@
 require_once 'vendor/autoload.php';
 
 use Micros\Entity\Patient;
+use Micros\Entity\Agreement;
 use Micros\Foundation\Schema;
 
 try {
@@ -13,11 +14,25 @@ try {
 
 $patient = new Patient($schema);
 //$patient->export();
-print_r($patient->export());
 /*
 $patient->addAgreement(new Agreement(new Schema('Agreement'), [
-    'createAt' => '2018-10-08',
-    'type' => 'Examination',
-    'photo' => 'scan_exam.jpg',
+    'createdAt' => '2018-09-23',
+    'type' => 'Surgery',
+    'photo' => 'scan_surgery.jpg',
 ]));
 */
+/*
+$patient->addAgreement(Agreement::fromData([
+    'createdAt' => '2018-09-23',
+    'type' => 'Surgery',
+    'photo' => 'scan_surgery.jpg',
+]));
+*/
+
+$patient->addAgreement([
+    'createdAt' => '2018-09-23',
+    'type' => 'Surgery',
+    'photo' => 'scan_surgery.jpg',
+]);
+
+print_r($patient->export());

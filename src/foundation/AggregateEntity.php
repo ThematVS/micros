@@ -33,7 +33,6 @@ class AggregateEntity extends Entity implements Serializable
     /**
      * Deserialize entity properties with given data
      *
-     * It walks through schema and extracts persistable things
      */
     public function import(array $data)
     {

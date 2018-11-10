@@ -22,7 +22,7 @@ class Patient extends AggregateEntity
     protected $registerDate;
     protected $insurance;
     protected $photos;
-    protected $agreement;
+    protected $agreements;
     protected $documents;
 
     protected $id = 12345;
@@ -44,31 +44,52 @@ class Patient extends AggregateEntity
         $this->address->house = '11';
         $this->address->apt = '29';
 
+        // create empty entity with autoloaded schema
+        //$this->agreement = new Agreement();
+
+        /*
+        // create entity with data with autoloaded schema
+        $this->agreement = Agreement::fromData([
+            'createdAt' => '2018-11-10',
+            'type' => 'Therapy',
+            'photo' => 'scan.jpg',
+        ]);
+        */
+
+        /*
+        // create entity with custom schema and initial data
         try {
             $schemaAgreement = new Schema('Agreement');
         } catch (Exception $e) {
             echo 'Cannot create Agreement schema', PHP_EOL;
             exit;
         }
-//        $this->agreement = new Agreement();
-/*
-        $this->agreement = Agreement::fromData([
-            'createdAt' => '2018-11-10',
-            'type' => 'Therapy',
-            'photo' => 'scan.jpg',
-        ]);
-*/
-/*
+
         $this->agreement = new Agreement($schemaAgreement, [
             'createdAt' => '2018-11-10',
             'type' => 'Therapy',
             'photo' => 'scan.jpg',
         ]);
-*/
+        */
+
+        //$this->agreements = new AgreementCollection();
+
+        $this->agreements = AgreementCollection::fromData([
+            [
+                'createdAt' => '2018-11-10',
+                'type' => 'Therapy',
+                'photo' => 'scan.jpg',
+            ],
+            [
+                'createdAt' => '2018-10-08',
+                'type' => 'Examination',
+                'photo' => 'scan_exam.jpg',
+            ]
+        ]);
     }
 
-    public function addAgreement(array $data)
+    public function addAgreement($agreement)
     {
-        
+        $this->agreements->add($agreement);
     }
 }

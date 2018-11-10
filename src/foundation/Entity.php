@@ -75,7 +75,12 @@ class Entity implements Serializable
         $data = [];
 
         foreach ($properties as $prop) {
+            $value = $getProp($prop);
             $data[$prop] = $getProp($prop);
+        }
+        // if it's a service array, like for collections, get rid of it
+        if (is_array($data) && isset($data['_data'])) {
+            $data = $data['_data'];
         }
         return $data;
     }
@@ -83,7 +88,6 @@ class Entity implements Serializable
     /**
      * Deserialize entity properties with given data
      *
-     * It walks through schema and extracts persistable things
      */
     public function import(array $data)
     {
