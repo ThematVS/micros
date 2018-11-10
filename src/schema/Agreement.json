@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://mynet.com/schemas/user.json#",
+  "title": "Agreement",
+  "description": "Agreement",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "maxLength": 128 },
+    "photo": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" }
+  }
+}

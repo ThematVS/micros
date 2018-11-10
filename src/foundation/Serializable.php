@@ -7,5 +7,5 @@ namespace Micros\Foundation;
 interface Serializable
 {
     public function export();
-    public function import($data);
+    public function import(array $data);
 }
