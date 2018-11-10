@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "data": {
+            "oneOf": [
+                { "$ref": "#/definitions/integerData" },
+                { "$ref": "#/definitions/stringData" }
+            ]
+        }
+    },
+    "required": ["data"],
+    "definitions": {
+        "integerData" : {
+            "type": "integer",
+            "minimum" : 0
+        },
+        "stringData" : {
+            "type": "string"
+        }
+    }
+}
