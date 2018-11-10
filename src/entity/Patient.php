@@ -32,7 +32,8 @@ class Patient extends AggregateEntity
     protected $address = 'Address';
     protected $connections = [1, 2, 3, 4, 5];
     protected $feeds = ['feed1', 'autofeed'];
-    protected $createdAt = '2018-11-10';
+    protected $createdAt = '2018-11-09';
+    protected $type = '';
 
     protected function build($data)
     {
@@ -49,11 +50,25 @@ class Patient extends AggregateEntity
             echo 'Cannot create Agreement schema', PHP_EOL;
             exit;
         }
-        
-        $this->agreement = new Agreement($schemaAgreement, [
-            'createAt' => '2018-11-10',
+//        $this->agreement = new Agreement();
+/*
+        $this->agreement = Agreement::fromData([
+            'createdAt' => '2018-11-10',
             'type' => 'Therapy',
             'photo' => 'scan.jpg',
         ]);
+*/
+/*
+        $this->agreement = new Agreement($schemaAgreement, [
+            'createdAt' => '2018-11-10',
+            'type' => 'Therapy',
+            'photo' => 'scan.jpg',
+        ]);
+*/
+    }
+
+    public function addAgreement(array $data)
+    {
+        
     }
 }

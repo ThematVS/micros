@@ -14,3 +14,10 @@ try {
 $patient = new Patient($schema);
 //$patient->export();
 print_r($patient->export());
+/*
+$patient->addAgreement(new Agreement(new Schema('Agreement'), [
+    'createAt' => '2018-10-08',
+    'type' => 'Examination',
+    'photo' => 'scan_exam.jpg',
+]));
+*/

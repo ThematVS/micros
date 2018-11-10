@@ -1,17 +1,34 @@
 <?php
 namespace Micros\Foundation;
 
-abstract class Entity implements Serializable
+class Entity implements Serializable
 {
     private $schema;
     protected $className;
 
-    public function __construct(Schema $schema, $data = null)
+    public function __construct(Schema $schema = null, $data = [])
     {
-        $this->schema = $schema;
         $this->className = $this->getClassName();
 
+        if (!$schema) {
+            // no schema provided, try to load proper one
+            try {
+                $schema = new Schema($this->className);
+            } catch (Exception $e) {
+                echo 'Cannot create ' . $this->className . ' schema', PHP_EOL;
+                exit;
+            }
+        }
+        $this->schema = $schema;
+        // try to build object data
         $this->build($data);
+    }
+
+    public static function fromData(array $data)
+    {
+        // get fully qualified class name to avoid inclusion of multiple namespaces
+        $class = '\\Micros\\Entity\\' . static::getClassName();
+        return new $class(null, $data);
     }
 
     /**
@@ -37,7 +54,8 @@ abstract class Entity implements Serializable
 
     protected function getClassName()
     {
-        return (new \ReflectionClass($this))->getShortName();
+        return substr(static::class, strrpos(static::class, '\\') + 1);
+//        return (new \ReflectionClass($this))->getShortName();
     }
 
     /**
@@ -69,6 +87,15 @@ abstract class Entity implements Serializable
      */
     public function import(array $data)
     {
-        return $data;
+//        $properties = $this->schema->getProperties();
+
+        $propClosure = function ($prop, $value) {
+            $this->$prop = $value;
+        };
+        $setProp = $propClosure->bindTo($this);
+
+        foreach ($data as $prop => $value) {
+            $setProp($prop, $value);
+        }
     }
 }

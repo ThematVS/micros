@@ -21,7 +21,7 @@ class Schema
         $this->schema = json_decode(file_get_contents($path));
 
         if (json_last_error() != JSON_ERROR_NONE) {
-            throw new \Exception(json_last_error_msg());
+            throw new \Exception('Cannot create schema (' . json_last_error_msg() . ')');
         }
         $this->validator = new JsonValidator();
     }

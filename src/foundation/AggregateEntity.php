@@ -1,13 +1,8 @@
 <?php
 namespace Micros\Foundation;
 
-abstract class AggregateEntity extends Entity implements Serializable
+class AggregateEntity extends Entity implements Serializable
 {
-    public function __construct(Schema $schema, $data = null)
-    {
-        parent::__construct($schema);
-    }
-
     /**
      * Build entity aggregates with all dependencies
      */
