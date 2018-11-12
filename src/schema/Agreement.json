@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "http://mynet.com/schemas/user.json#",
+  "id": "http://localhost/schema/Agreement.json#",
   "title": "Agreement",
   "description": "Agreement",
   "type": "object",

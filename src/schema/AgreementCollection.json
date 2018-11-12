@@ -1,22 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "http://mynet.com/schemas/user.json#",
+  "id": "http://localhost/schema/AgreementCollection.json#",
   "title": "AgreementCollection",
   "description": "AgreementCollection",
   "type": "object",
   "properties": {
     "_data": {
       "type": "array",
-      "items": {
-        "title": "Agreement item",
-        "description": "",
-        "type": "object",
-        "properties": {
-          "type": { "type": "string", "maxLength": 128 },
-          "photo": { "type": "string" },
-          "createdAt": { "type": "string", "format": "date-time" }
-        }
-      }
+      "items": {"$ref": "Agreement.json#"}
     }
   }
 }

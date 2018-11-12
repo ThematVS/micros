@@ -50,7 +50,7 @@ class Patient extends AggregateEntity
         /*
         // create entity with data with autoloaded schema
         $this->agreement = Agreement::fromData([
-            'createdAt' => '2018-11-10',
+            'createdAt' => '2018-11-10T00:00:00z',
             'type' => 'Therapy',
             'photo' => 'scan.jpg',
         ]);
@@ -66,7 +66,7 @@ class Patient extends AggregateEntity
         }
 
         $this->agreement = new Agreement($schemaAgreement, [
-            'createdAt' => '2018-11-10',
+            'createdAt' => '2018-11-10T00:00:00z',
             'type' => 'Therapy',
             'photo' => 'scan.jpg',
         ]);
@@ -76,12 +76,12 @@ class Patient extends AggregateEntity
 
         $this->agreements = AgreementCollection::fromData([
             [
-                'createdAt' => '2018-11-10',
+                'createdAt' => '2018-11-10T00:00:00z',
                 'type' => 'Therapy',
                 'photo' => 'scan.jpg',
             ],
             [
-                'createdAt' => '2018-10-08',
+                'createdAt' => '2018-10-08T00:00:00z',
                 'type' => 'Examination',
                 'photo' => 'scan_exam.jpg',
             ]

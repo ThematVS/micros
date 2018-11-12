@@ -30,7 +30,7 @@ $patient->addAgreement(Agreement::fromData([
 */
 
 $patient->addAgreement([
-    'createdAt' => '2018-09-23',
+    'createdAt' => '2018-09-23T00:00:00z',
     'type' => 'Surgery',
     'photo' => 'scan_surgery.jpg',
 ]);

@@ -24,14 +24,14 @@ class AgreementCollection extends AggregateEntity
 
     public function add($obj)
     {
-        if ($obj instanceof Agreement) {
-            $this->_data[] = $obj;
-            return true;
+        if (is_object($obj) && !$obj instanceof Agreement) {
+            throw new \Exception('Instance of Agreement required');
         }
         if (is_array($obj)) {
-            $this->_data[] = Agreement::fromData($obj);
-            return true;
+            $obj = Agreement::fromData($obj);
         }
-        return false;
+//$obj->check();
+        $this->_data[] = $obj;
+        return true;
     }
 }

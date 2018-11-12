@@ -16,7 +16,7 @@ class AggregateEntity extends Entity implements Serializable
      *
      * It walks through schema and extracts persistable properties
      */
-    public function export()
+    public function export($asArray = true)
     {
         // get properties
         $data = parent::export();

@@ -5,6 +5,7 @@ class Entity implements Serializable
 {
     private $schema;
     protected $className;
+    protected $errors = [];
 
     public function __construct(Schema $schema = null, $data = [])
     {
@@ -22,6 +23,11 @@ class Entity implements Serializable
         $this->schema = $schema;
         // try to build object data
         $this->build($data);
+
+        if ($this->hasErrors()) {
+            print_r($this->getErrors());
+//            throw new \Exception('Bad data passed to build');
+        }
     }
 
     public static function fromData(array $data)
@@ -36,6 +42,12 @@ class Entity implements Serializable
      */
     protected function build($data)
     {
+        // check passed data before build
+        // so something external wouldn't be able to overwrite non-storable properties
+        if (!$this->isValid($data)) {
+            $this->errors['build'] = $data;
+            return false;
+        }
         foreach ($data as $prop => $value) {
             $this->$prop = $value;
         }
@@ -44,14 +56,34 @@ class Entity implements Serializable
 
     /**
      * Check whether entity is valid
+     *
+     * *@param array $data External data to check
      */
-    protected function isValid()
+    public function isValid($data = null)
     {
-        $data = $this->export();
+        $data = $data ?: $this->export();
 
-        return $this->schema->validate($data);
+        $valid = $this->schema->valid($data);
+
+        if (!$valid) {
+            $this->errors['schema'] = $this->schema->getErrors();
+        }
+        return $valid;
     }
 
+    public function hasErrors()
+    {
+        return sizeof($this->errors);
+    }
+
+    public function getErrors($scope = null)
+    {
+        return $scope && isset($this->errors[$scope]) ? $this->errors[$scope] : $this->errors;
+    }
+
+    /**
+     * Get class name to determine descendant class name
+     */
     protected function getClassName()
     {
         return substr(static::class, strrpos(static::class, '\\') + 1);
@@ -62,8 +94,9 @@ class Entity implements Serializable
      * Creates array of all entity properties that can be serialized
      *
      * It walks through schema and extracts persistable properties
+     * @return array Ready-to-store array
      */
-    public function export()
+    public function export($asArray = true)
     {
         $properties = $this->schema->getProperties();
 
@@ -72,15 +105,23 @@ class Entity implements Serializable
         };
         $getProp = $propClosure->bindTo($this);
 
-        $data = [];
+        $data = $asArray ? [] : new \stdClass();
 
         foreach ($properties as $prop) {
             $value = $getProp($prop);
-            $data[$prop] = $getProp($prop);
+
+            if ($asArray) {
+                $data[$prop] = $value;
+            } else {
+                $data->$prop = $value;
+            }
+
         }
         // if it's a service array, like for collections, get rid of it
         if (is_array($data) && isset($data['_data'])) {
             $data = $data['_data'];
+        } elseif (isset($data->_data)) {
+            $data = $data->_data;
         }
         return $data;
     }

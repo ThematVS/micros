@@ -26,12 +26,7 @@ class Schema
         $this->validator = new JsonValidator();
     }
 
-    public function validateFromString(string $data)
-    {
-        return $this->validate(json_decode($data));
-    }
-
-    public function validateFromArray(array $data)
+    public function valid($data)
     {
         return $this->validate($data);
     }
@@ -42,16 +37,33 @@ class Schema
         return array_keys((array) $this->schema->properties);
     }
 
-    private function validate(array $data)
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Validate entity data
+     * 
+     * @param array|object|string $data Dataset to verify
+     */
+    private function validate($data)
     {
         $this->errors = [];
 
-        $this->validator->validate($data, (object) $this->schema);
+        if (is_string($data)) {
+            $data = json_decode($data);
+        } elseif (is_array($data)) {
+            // this can be done recursively, but I haven't measured real timings
+            $data = json_decode(json_encode($data));
+        }
+        // validator uses object type for both data and schema
+        $this->validator->validate($data, $this->schema);
 
-        if ($validator->isValid()) {
+        if ($this->validator->isValid()) {
             return true;
         }
-        $this->errors = $validator->getErrors();
+        $this->errors = $this->validator->getErrors();
 
         return false;
     }

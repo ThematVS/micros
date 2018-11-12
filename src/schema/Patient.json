@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "http://mynet.com/schemas/user.json#",
+  "id": "http://localhost/schema/Patient.json#",
   "title": "Patient",
   "description": "Patient",
   "type": "object",
@@ -81,6 +81,6 @@
       "additionalProperties": false
     },
     "createdAt": { "type": "string", "format": "date-time" },
-    "agreements": { "type": "array" }
+    "agreements": { "$ref": "AgreementCollection.json#" }
   }
 }

@@ -1,6 +1,7 @@
 {
     "require": {
-        "justinrainbow/json-schema": "^5.2"
+        "justinrainbow/json-schema": "^5.2",
+        "mongodb/mongodb": "^1.4"
     },
     "autoload": {
         "psr-4": {

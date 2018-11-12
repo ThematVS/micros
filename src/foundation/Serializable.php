@@ -6,6 +6,6 @@ namespace Micros\Foundation;
  */
 interface Serializable
 {
-    public function export();
+    public function export($asArray = true);
     public function import(array $data);
 }
